@@ -8,7 +8,6 @@ class Movie(models.Model):
     genres = models.ManyToManyField(to="Genre", related_name="movies")
     duration = models.IntegerField()
 
-
     def __str__(self) -> str:
         return self.title
 

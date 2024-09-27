@@ -8,9 +8,11 @@ from rest_framework.views import APIView
 from cinema.models import Movie, Genre, Actor, CinemaHall
 from cinema.serializers import (
     GenreSerializer,
-    ActorSerializer, CinemaHallSerializer,
-
+    ActorSerializer,
+    CinemaHallSerializer,
+    MovieSerializer,
 )
+
 
 class GenreList(APIView):
     def get(self, request: HttpRequest) -> Response:
@@ -88,7 +90,8 @@ class ActorDetail(
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
-    def get(self,
+    def get(
+        self,
         request: HttpRequest,
         *args: tuple,
         **kwargs: dict
@@ -130,3 +133,8 @@ class CinemaHallViewSet(
 ):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
+
+
+class MovieViewSet(viewsets.ModelViewSet):
+    queryset = Movie.objects.prefetch_related("genres", "actors")
+    serializer_class = MovieSerializer
